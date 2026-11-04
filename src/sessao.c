@@ -77,3 +77,20 @@ int sessao_obter_id(const Sessao *s) {
     } 
     return s->id; 
 }
+
+int sessao_obter_assentos_vagos(const Sessao *s) {
+    if (s == NULL || s->mapa_assentos == NULL) {
+        return -1;
+    }
+
+    int vagos = 0;
+    for (int i=0; i<s->linhas; i++) {
+        for (int j=0; j<s->colunas; j++) {
+            if (s->mapa_assentos[i][j] == 0) {
+                vagos++;
+            }
+        }
+    }
+    return vagos;
+}
+
