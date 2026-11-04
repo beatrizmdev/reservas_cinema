@@ -94,3 +94,18 @@ int sessao_obter_assentos_vagos(const Sessao *s) {
     return vagos;
 }
 
+float sessao_obter_taxa_ocupacao(const Sessao *s) {
+    if (s == NULL || s->mapa_assentos == NULL) {
+        return -1.0f;
+    }
+    int total_assentos = s->linhas * s->colunas;
+
+    int vagos = sessao_obter_assentos_vagos(s);
+    if (vagos < 0) {
+        return -1.0f;
+    }
+
+    int ocupados = total_assentos - vagos;
+    
+    return ((float)ocupados / total_assentos) * 100.0f;
+}
