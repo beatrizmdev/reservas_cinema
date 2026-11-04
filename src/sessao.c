@@ -52,3 +52,19 @@ Sessao* sessao_criar(int id, const char *titulo, const char *horario, int sala, 
     return s;
 }
 
+void sessao_deletar(Sessao *s) {
+    if (s == NULL) {
+        return;
+    } 
+    
+    if (s->mapa_assentos != NULL) { 
+        
+        for (int i=0; i<s->linhas; i++) { 
+            free(s->mapa_assentos[i]); 
+        } 
+
+        free(s->mapa_assentos); 
+    } 
+    
+    free(s);
+}
