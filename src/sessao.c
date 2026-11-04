@@ -71,3 +71,9 @@ void sessao_deletar(Sessao *s) {
     printf("Sessao deletada!\n");
 }
 
+int sessao_obter_id(const Sessao *s) { 
+    if (s == NULL) { 
+        return -1; 
+    } 
+    return s->id; 
+}
