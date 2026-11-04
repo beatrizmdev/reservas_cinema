@@ -48,12 +48,13 @@ Sessao* sessao_criar(int id, const char *titulo, const char *horario, int sala, 
             return NULL;
         }
     }
-
+    printf("Sessao criada!\n");
     return s;
 }
 
 void sessao_deletar(Sessao *s) {
     if (s == NULL) {
+        printf("Erro: nada a ser apagado.\n");
         return;
     } 
     
@@ -65,6 +66,8 @@ void sessao_deletar(Sessao *s) {
 
         free(s->mapa_assentos); 
     } 
-    
+
     free(s);
+    printf("Sessao deletada!\n");
 }
+
