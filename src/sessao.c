@@ -54,7 +54,7 @@ Sessao* sessao_criar(int id, const char *titulo, const char *horario, int sala, 
 
 void sessao_deletar(Sessao *s) {
     if (s == NULL) {
-        printf("Erro: nada a ser apagado.\n");
+        printf("Erro: sessao não encontrada!\n");
         return;
     } 
     
@@ -73,6 +73,7 @@ void sessao_deletar(Sessao *s) {
 
 int sessao_obter_id(const Sessao *s) { 
     if (s == NULL) { 
+        printf("Erro: sessao não encontrada!\n");
         return -1; 
     } 
     return s->id; 
@@ -80,6 +81,7 @@ int sessao_obter_id(const Sessao *s) {
 
 int sessao_obter_assentos_vagos(const Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
+        printf("Erro: sessao não encontrada!\n");
         return -1;
     }
 
@@ -96,12 +98,14 @@ int sessao_obter_assentos_vagos(const Sessao *s) {
 
 float sessao_obter_taxa_ocupacao(const Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
+        printf("Erro: sessao não encontrada!\n");
         return -1.0f;
     }
     int total_assentos = s->linhas * s->colunas;
 
     int vagos = sessao_obter_assentos_vagos(s);
     if (vagos < 0) {
+        printf("Erro: sessao não encontrada!\n");
         return -1.0f;
     }
 
