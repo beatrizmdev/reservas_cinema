@@ -136,16 +136,43 @@ int sessao_marcar_assento(Sessao *s, int linha, int coluna, int estado) {
     }
 
     if (linha < 0 || linha >= s->linhas || coluna < 0 || coluna >= s->colunas) {
-        printf("Erro: posicao (%d, %d) fora dos limites da sala!\\n", linha, coluna);
+        printf("Erro: posicao (%d, %d) fora dos limites da sala!\n", linha, coluna);
         return 0;
     }
 
     if (estado != 0 && estado != 1) {
-        printf("Erro: estado invalido (%d). Use 0 (livre) ou 1 (reservado).\\n", estado);
+        printf("Erro: estado invalido (%d). Use 0 (livre) ou 1 (reservado).\n", estado);
         return 0;
     }
 
     s->mapa_assentos[linha][coluna] = estado;
     printf("Estado de assento alterado.\n");
     return 1;
+}
+
+void sessao_listar_todas(Sessao **sessoes, int qtd_sessoes) {
+
+    if (sessoes == NULL || qtd_sessoes <= 0) {
+        printf("\nErro: nenhuma sessao encontrada!\n");
+        return;
+    }
+
+    printf("\n========================== SESSÕES DISPONÍVEIS ==========================\n");
+    printf("%-5s | %-22s | %-8s | %-5s | %-12s\n", "ID", "Filme", "Horario", "Sala", "Lugares Vagos");
+    printf("-------------------------------------------------------------------------\n");
+    
+    for (int i = 0; i < qtd_sessoes; i++) {
+        if (sessoes[i] != NULL) {
+            int vagos = sessao_obter_assentos_vagos(sessoes[i]);
+            int total = sessoes[i]->linhas * sessoes[i]->colunas;
+            printf("%-5d | %-22s | %-8s | Sala %-2d | %d/%d vagos\n",
+                sessoes[i]->id,
+                sessoes[i]->titulo,
+                sessoes[i]->horario,
+                sessoes[i]->sala,
+                vagos, total);
+        }
+    }
+    
+    printf("============================================================================\n");
 }
