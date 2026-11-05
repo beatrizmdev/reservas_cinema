@@ -96,6 +96,22 @@ int sessao_obter_assentos_vagos(const Sessao *s) {
     return vagos;
 }
 
+Sessao* sessao_buscar_por_id(Sessao **sessoes, int qtd_sessoes, int id) {
+    if (sessoes == NULL || qtd_sessoes <= 0) {
+        printf("Erro: sessao nao encontrada!\n");
+        return NULL;
+    }
+
+    for (int i=0; i<qtd_sessoes; i++) {
+        if (sessoes[i] != NULL && sessao_obter_id(sessoes[i]) == id) {
+            return sessoes[i];
+        }
+    }
+
+    printf("Erro: sessao nao encontrada!\n");
+    return NULL;
+}
+
 float sessao_obter_taxa_ocupacao(const Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
         printf("Erro: sessao nao encontrada!\n");
