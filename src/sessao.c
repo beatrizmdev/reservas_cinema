@@ -54,7 +54,7 @@ Sessao* sessao_criar(int id, const char *titulo, const char *horario, int sala, 
 
 void sessao_deletar(Sessao *s) {
     if (s == NULL) {
-        printf("Erro: sessao não encontrada!\n");
+        printf("Erro: sessao nao encontrada!\n");
         return;
     } 
     
@@ -73,7 +73,7 @@ void sessao_deletar(Sessao *s) {
 
 int sessao_obter_id(const Sessao *s) { 
     if (s == NULL) { 
-        printf("Erro: sessao não encontrada!\n");
+        printf("Erro: sessao nao encontrada!\n");
         return -1; 
     } 
     return s->id; 
@@ -81,7 +81,7 @@ int sessao_obter_id(const Sessao *s) {
 
 int sessao_obter_assentos_vagos(const Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
-        printf("Erro: sessao não encontrada!\n");
+        printf("Erro: sessao nao encontrada!\n");
         return -1;
     }
 
@@ -98,18 +98,54 @@ int sessao_obter_assentos_vagos(const Sessao *s) {
 
 float sessao_obter_taxa_ocupacao(const Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
-        printf("Erro: sessao não encontrada!\n");
+        printf("Erro: sessao nao encontrada!\n");
         return -1.0f;
     }
     int total_assentos = s->linhas * s->colunas;
 
     int vagos = sessao_obter_assentos_vagos(s);
     if (vagos < 0) {
-        printf("Erro: sessao não encontrada!\n");
+        printf("Erro: sessao nao encontrada!\n");
         return -1.0f;
     }
 
     int ocupados = total_assentos - vagos;
     
     return ((float)ocupados / total_assentos) * 100.0f;
+}
+
+int sessao_assento_livre(const Sessao *s, int linha, int coluna) {
+
+    if (s == NULL || s->mapa_assentos == NULL) {
+        printf("Erro: sessao nao encontrada!\n");
+        return 0;
+    }
+
+    if (linha < 0 || linha >= s->linhas || coluna < 0 || coluna >= s->colunas) {
+        printf("Erro: o assento nao existe!\n");
+        return 0;
+    }
+        
+    return (s->mapa_assentos[linha][coluna] == 0);
+}
+
+int sessao_marcar_assento(Sessao *s, int linha, int coluna, int estado) {
+    if (s == NULL || s->mapa_assentos == NULL) {
+        printf("Erro: sessao nao encontrada!\n");
+        return 0;
+    }
+
+    if (linha < 0 || linha >= s->linhas || coluna < 0 || coluna >= s->colunas) {
+        printf("Erro: posicao (%d, %d) fora dos limites da sala!\\n", linha, coluna);
+        return 0;
+    }
+
+    if (estado != 0 && estado != 1) {
+        printf("Erro: estado invalido (%d). Use 0 (livre) ou 1 (reservado).\\n", estado);
+        return 0;
+    }
+
+    s->mapa_assentos[linha][coluna] = estado;
+    printf("Estado de assento alterado.\n");
+    return 1;
 }
