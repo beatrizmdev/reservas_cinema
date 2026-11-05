@@ -176,3 +176,32 @@ void sessao_listar_todas(Sessao **sessoes, int qtd_sessoes) {
     
     printf("============================================================================\n");
 }
+
+void sessao_exibir_mapa(const Sessao *s) {
+    if (s == NULL || s->mapa_assentos == NULL) {
+        printf("Erro: sessao nao encontrada!\n");
+        return;
+    }
+    
+    printf("\n=== MAPA DE ASSENTOS - SESSÃO %d: %s (%s) ===\n", s->id, s->titulo, s->horario);
+    printf(" ================ TELA ================\n\n");
+    
+    for (int j=0; j<s->colunas; j++) {
+        printf("%2d ", j+1);
+    }
+    printf("\n");
+    
+    for (int i=0; i<s->linhas; i++) {
+        printf("Fileira %2d: ", i+1);
+        for (int j=0; j<s->colunas; j++) {
+            if (s->mapa_assentos[i][j] == 0) {
+                printf("[ ]");
+            } else {
+                printf("[X]");
+            }
+        }
+        printf("\n");
+    }
+    
+    printf("\nLegenda: [ ] Livre | [X] Ocupado/Reservado\n");
+}
