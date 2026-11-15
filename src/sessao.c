@@ -202,6 +202,7 @@ void sessao_exibir_mapa(const Sessao *s) {
     printf("\n=== MAPA DE ASSENTOS - SESSÃO %d: %s (%s) ===\n", s->id, s->titulo, s->horario);
     printf(" ================ TELA ================\n\n");
     
+    printf("            ");
     for (int j=0; j<s->colunas; j++) {
         printf("%2d ", j+1);
     }
