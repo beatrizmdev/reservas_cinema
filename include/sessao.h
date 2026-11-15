@@ -1,3 +1,6 @@
+#ifndef SESSAO_H
+#define SESSAO_H
+
 typedef struct sessao Sessao;
 
 Sessao* sessao_criar(int id, const char *titulo, const char *horario, int sala, int linhas,
@@ -20,3 +23,5 @@ int sessao_marcar_assento(Sessao *s, int linha, int coluna, int estado);
 void sessao_listar_todas(Sessao **sessoes, int qtd_sessoes);
 
 Sessao* sessao_buscar_por_id(Sessao **sessoes, int qtd_sessoes, int id);
+
+#endif
