@@ -15,7 +15,7 @@ struct sessao{
 };
 
 
-Sessao* sessao_criar(int id, const char *titulo, const char *horario, int sala, int linhas, int colunas) {
+Sessao* sessao_criar(int id, char *titulo, char *horario, int sala, int linhas, int colunas) {
     Sessao *s = (Sessao *) malloc(sizeof(Sessao));
     if (s == NULL) {
         printf("Erro: Falha ao alocar memoria para a sessao!\n");
@@ -71,7 +71,7 @@ void sessao_deletar(Sessao *s) {
     printf("Sessao deletada!\n");
 }
 
-int sessao_obter_id(const Sessao *s) { 
+int sessao_obter_id(Sessao *s) { 
     if (s == NULL) { 
         printf("Erro: sessao nao encontrada!\n");
         return -1; 
@@ -79,7 +79,7 @@ int sessao_obter_id(const Sessao *s) {
     return s->id; 
 }
 
-int sessao_obter_assentos_vagos(const Sessao *s) {
+int sessao_obter_assentos_vagos(Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
         printf("Erro: sessao nao encontrada!\n");
         return -1;
@@ -112,7 +112,7 @@ Sessao* sessao_buscar_por_id(Sessao **sessoes, int qtd_sessoes, int id) {
     return NULL;
 }
 
-float sessao_obter_taxa_ocupacao(const Sessao *s) {
+float sessao_obter_taxa_ocupacao(Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
         printf("Erro: sessao nao encontrada!\n");
         return -1.0f;
@@ -130,7 +130,7 @@ float sessao_obter_taxa_ocupacao(const Sessao *s) {
     return ((float)ocupados / total_assentos) * 100.0f;
 }
 
-int sessao_assento_livre(const Sessao *s, int linha, int coluna) {
+int sessao_assento_livre(Sessao *s, int linha, int coluna) {
 
     if (s == NULL || s->mapa_assentos == NULL) {
         printf("Erro: sessao nao encontrada!\n");
@@ -193,7 +193,7 @@ void sessao_listar_todas(Sessao **sessoes, int qtd_sessoes) {
     printf("============================================================================\n");
 }
 
-void sessao_exibir_mapa(const Sessao *s) {
+void sessao_exibir_mapa(Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
         printf("Erro: sessao nao encontrada!\n");
         return;
@@ -221,4 +221,24 @@ void sessao_exibir_mapa(const Sessao *s) {
     }
     
     printf("\nLegenda: [ ] Livre | [X] Ocupado/Reservado\n");
+}
+
+char* sessao_obter_titulo(Sessao *s) {
+    return (s != NULL) ? s->titulo : NULL;
+}
+
+char* sessao_obter_horario(Sessao *s) {
+    return (s != NULL) ? s->horario : NULL;
+}
+
+int sessao_obter_sala(Sessao *s) {
+    return (s != NULL) ? s->sala : -1;
+}
+
+int sessao_obter_linhas(Sessao *s) {
+    return (s != NULL) ? s->linhas : 0;
+}
+
+int sessao_obter_colunas(Sessao *s) {
+    return (s != NULL) ? s->colunas : 0;
 }
