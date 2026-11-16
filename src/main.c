@@ -50,6 +50,7 @@ int main(void) {
         printf("5. Cancelar uma reserva\n");
         printf("6. Listar todas as reservas\n");
         printf("7. Salvar dados agora\n");
+        printf("8. Cancelar todas as reservas de uma sessao (Esvaziar sala)\n");
         printf("0. Sair do sistema\n");
         printf("-------------------------------------------------------\n");
         printf("Escolha uma opcao: ");
@@ -226,6 +227,39 @@ int main(void) {
                     printf("[SUCESSO] Todos os dados foram gravados em disco!\n");
                 } else {
                     printf("[ERRO] Falha ao persistir os dados no disco. Verifique se a pasta 'dados/' existe.\n");
+                }
+                break;
+            }
+
+            case 8: {
+                int id_sessao;
+                printf("\n--- Cancelamento em Lote de Reservas ---\n");
+                printf("Digite o ID da sessao a ter as reservas canceladas: ");
+                scanf("%d", &id_sessao);
+                limpar_buffer();
+
+                Sessao *s = sessao_buscar_por_id(sessoes, qtd_sessoes, id_sessao);
+                if (s == NULL) {
+                    printf("[ERRO] Nenhuma sessao encontrada com o ID %d.\n", id_sessao);
+                    break;
+                }
+
+                char confirmacao;
+                printf("[ATENCAO] Deseja realmente cancelar TODAS as reservas da sessao %d (%s)? (s/n): ",
+                    id_sessao, sessao_obter_titulo(s));
+                scanf("%c", &confirmacao);
+                limpar_buffer();
+
+                if (confirmacao == 's' || confirmacao == 'S') {
+                    int total_canceladas = reserva_cancelar_por_sessao(reservas, qtd_reservas, s);
+                    if (total_canceladas > 0) {
+                        printf("[SUCESSO] %d reserva(s) cancelada(s) e todos os assentos foram liberados!\n",
+                            total_canceladas);
+                    } else {
+                        printf("[INFO] Nenhuma reserva ativa vinculada a esta sessao.\n");
+                    }
+                } else {
+                    printf("[INFO] Operacao cancelada pelo usuario.\n");
                 }
                 break;
             }
