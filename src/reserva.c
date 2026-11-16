@@ -88,6 +88,25 @@ int reserva_cancelar(Reserva *r, Sessao *s) {
     return 1;
 }
 
+int reserva_cancelar_por_sessao(Reserva **reservas, int qtd_reservas, Sessao *s) {
+    if (reservas == NULL || qtd_reservas <= 0 || s == NULL) {
+        return 0;
+    }
+
+    int id_alvo = sessao_obter_id(s);
+    int canceladas = 0;
+
+    for (int i = 0; i < qtd_reservas; i++) {
+        if (reservas[i] != NULL && reserva_obter_id_sessao(reservas[i]) == id_alvo) {
+            if (reserva_cancelar(reservas[i], s)) {
+                canceladas++;
+            }
+        }
+    }
+
+    return canceladas;
+}
+
 void reserva_listar_todas(Reserva **reservas, int qtd) {
     if (reservas == NULL || qtd <= 0) {
         printf("\n[Erro]: nenhuma reserva registrada.\n");
