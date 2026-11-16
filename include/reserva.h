@@ -17,6 +17,7 @@ int reserva_obter_coluna(Reserva *r);
 int reserva_esta_ativa(Reserva *r);
 
 int reserva_cancelar(Reserva *r, Sessao *s);
+int reserva_cancelar_por_sessao(Reserva **reservas, int qtd_reservas, Sessao *s);
 
 void reserva_listar_todas(Reserva **reservas, int qtd);
 Reserva* reserva_buscar_por_codigo(Reserva **reservas, int qtd, int codigo);
