@@ -18,7 +18,6 @@ struct sessao{
 Sessao* sessao_criar(int id, char *titulo, char *horario, int sala, int linhas, int colunas) {
     Sessao *s = (Sessao *) malloc(sizeof(Sessao));
     if (s == NULL) {
-        printf("Erro: Falha ao alocar memoria para a sessao!\n");
         return NULL;
     } 
     
@@ -31,7 +30,6 @@ Sessao* sessao_criar(int id, char *titulo, char *horario, int sala, int linhas, 
     
     s->mapa_assentos = (int **) malloc(linhas * sizeof(int *));
     if (s->mapa_assentos == NULL) {
-        printf("Erro: memoria insuficiente para alocar linhas no mapa de assentos!\n");
         free(s);
         return NULL;
     }
@@ -39,7 +37,6 @@ Sessao* sessao_criar(int id, char *titulo, char *horario, int sala, int linhas, 
     for (int i=0; i<linhas; i++) {
         s->mapa_assentos[i] = (int *) calloc(colunas, sizeof(int));
         if (s->mapa_assentos[i] == NULL) {
-            printf("Erro: memoria insuficiente para alocar colunas no mapa de assentos!\n");
             for (int j = 0; j < i; j++) {
                 free(s->mapa_assentos[j]);
             } 
@@ -48,13 +45,11 @@ Sessao* sessao_criar(int id, char *titulo, char *horario, int sala, int linhas, 
             return NULL;
         }
     }
-    printf("Sessao criada!\n");
     return s;
 }
 
 void sessao_deletar(Sessao *s) {
     if (s == NULL) {
-        printf("Erro: sessao nao encontrada!\n");
         return;
     } 
     
@@ -68,12 +63,10 @@ void sessao_deletar(Sessao *s) {
     } 
 
     free(s);
-    printf("Sessao deletada!\n");
 }
 
 int sessao_obter_id(Sessao *s) { 
     if (s == NULL) { 
-        printf("Erro: sessao nao encontrada!\n");
         return -1; 
     } 
     return s->id; 
@@ -81,7 +74,6 @@ int sessao_obter_id(Sessao *s) {
 
 int sessao_obter_assentos_vagos(Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
-        printf("Erro: sessao nao encontrada!\n");
         return -1;
     }
 
@@ -98,7 +90,6 @@ int sessao_obter_assentos_vagos(Sessao *s) {
 
 Sessao* sessao_buscar_por_id(Sessao **sessoes, int qtd_sessoes, int id) {
     if (sessoes == NULL || qtd_sessoes <= 0) {
-        printf("Erro: sessao nao encontrada!\n");
         return NULL;
     }
 
@@ -108,20 +99,17 @@ Sessao* sessao_buscar_por_id(Sessao **sessoes, int qtd_sessoes, int id) {
         }
     }
 
-    printf("Erro: sessao nao encontrada!\n");
     return NULL;
 }
 
 float sessao_obter_taxa_ocupacao(Sessao *s) {
     if (s == NULL || s->mapa_assentos == NULL) {
-        printf("Erro: sessao nao encontrada!\n");
         return -1.0f;
     }
     int total_assentos = s->linhas * s->colunas;
 
     int vagos = sessao_obter_assentos_vagos(s);
     if (vagos < 0) {
-        printf("Erro: sessao nao encontrada!\n");
         return -1.0f;
     }
 
@@ -133,12 +121,10 @@ float sessao_obter_taxa_ocupacao(Sessao *s) {
 int sessao_assento_livre(Sessao *s, int linha, int coluna) {
 
     if (s == NULL || s->mapa_assentos == NULL) {
-        printf("Erro: sessao nao encontrada!\n");
         return 0;
     }
 
     if (linha < 0 || linha >= s->linhas || coluna < 0 || coluna >= s->colunas) {
-        printf("Erro: o assento nao existe!\n");
         return 0;
     }
         
@@ -147,29 +133,24 @@ int sessao_assento_livre(Sessao *s, int linha, int coluna) {
 
 int sessao_marcar_assento(Sessao *s, int linha, int coluna, int estado) {
     if (s == NULL || s->mapa_assentos == NULL) {
-        printf("Erro: sessao nao encontrada!\n");
         return 0;
     }
 
     if (linha < 0 || linha >= s->linhas || coluna < 0 || coluna >= s->colunas) {
-        printf("Erro: posicao (%d, %d) fora dos limites da sala!\n", linha, coluna);
         return 0;
     }
 
     if (estado != 0 && estado != 1) {
-        printf("Erro: estado invalido (%d). Use 0 (livre) ou 1 (reservado).\n", estado);
         return 0;
     }
 
     s->mapa_assentos[linha][coluna] = estado;
-    printf("Estado de assento alterado.\n");
     return 1;
 }
 
 void sessao_listar_todas(Sessao **sessoes, int qtd_sessoes) {
 
     if (sessoes == NULL || qtd_sessoes <= 0) {
-        printf("\nErro: nenhuma sessao encontrada!\n");
         return;
     }
 
